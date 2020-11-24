@@ -1,66 +1,18 @@
 import React, { useState } from 'react'
-import { JsonRpc } from 'eosjs'
 //import "./accordion.css";
 import "../../index.css";
 import Accordion from "../../components/Accordion";
+import { fetchBlockData } from '../../utils';
 
-
-const api = new JsonRpc('https://eos.greymass.com')
-
-const timeout = ms => new Promise(resolve => setTimeout(resolve, ms))
-
-async function delay(fn, ...args) {
-  await timeout(1000)
-  return fn(...args)
-}
-
-const getBlockId = async () => {
-  try {
-    const blockInfo = await api.get_info()
-    console.log(blockInfo.head_block_id)
-    return blockInfo.head_block_id
-  } catch (err) {
-    throw err.message
-  }
-}
-
-async function getBlockInfo(blockId) {
-  try {
-    const blocks = await api.get_block(blockId)
-    return blocks
-  } catch (err) {
-    throw err.message
-  }
-}
 
 function List(props) {
   const [blocks, setBlocks] = useState([])
   const [show, setShow] = useState(false)
 
   async function fetchData() {
-    console.log("fetching data")
     setBlocks([])
-    let length = 10
-    let data = []
-    
 
-    let blkId;
-    while (length--) {
-      await delay(async () => {
-        //let blkId;
-        if (!data.length) {
-          blkId = await getBlockId()
-          const block = await getBlockInfo(blkId)
-          data.unshift(block)
-          console.log(data)
-        }
-        else {
-          blkId = data[data.length - 1].previous
-          const block = await getBlockInfo(blkId)
-          data.push(block)
-        }
-      })
-    }
+    const data = await fetchBlockData(10);
 
     setBlocks(data)
     setShow(true)
@@ -92,6 +44,7 @@ function List(props) {
     const Accor = blocks.map(e =>
    
     <Accordion
+    key={e.id}
     title={e.id}
     content={
       

@@ -44,4 +44,9 @@ Fetch the latest 10 Blocks from API provided.
 ![Information](https://github.com/alijnmerchant21/Blockone-Test/blob/main/Resources/Screen%20Shot%202020-11-23%20at%2010.53.58%20AM.png)
 
 
+*Result* <br>
+**Unit Testing implemented using Mocha Testing framework:**
 
+```
+npm run mocha-test
+```
