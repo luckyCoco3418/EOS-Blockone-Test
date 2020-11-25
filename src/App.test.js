@@ -1,8 +1,17 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+const timeout = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+test('find Load Data button', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByText('Load Data')).toBeInTheDocument();
 });
+
+test('click Load Data button', async () => {
+  render(<App />);
+  fireEvent.click(screen.getByText(/Load Data/i))
+  await timeout(20000);
+  const elments = screen.getAllByText(/action_mroot:/)
+  expect(elments.length).toBe(10)
+}, 25000)

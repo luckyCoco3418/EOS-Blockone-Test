@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import "../../index.css";
 import Accordion from "../../components/Accordion";
 import { fetchBlockData } from '../../utils';
-
+import { act } from '@testing-library/react';
 
 function List(props) {
   const [blocks, setBlocks] = useState([])
@@ -14,8 +14,8 @@ function List(props) {
 
     const data = await fetchBlockData(10);
 
-    setBlocks(data)
-    setShow(true)
+    act(() => setBlocks(data));
+    act(() => setShow(true));
   }
 
   return (
